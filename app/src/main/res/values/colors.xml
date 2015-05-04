@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="iob_app_light_grey">#fafafa</color>
+    <color name="iob_app_grey">#616161</color>
+    <color name="iob_app_red">#9f0015</color>
+    <color name="iob_app_transparent_white">#33ffffff</color>
+    <color name="iob_app_white">#ffffff</color>
+</resources>

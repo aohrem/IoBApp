@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Internet of Bicycles App</string>
+
+    <string-array name="navigation_icons">
+        <item>overview</item>
+        <item>statistics_and_tracks</item>
+        <item>notifications</item>
+        <item>find_my_bicycle</item>
+        <item>map_and_navigation</item>
+        <item>theft_protection</item>
+        <item>weather_forecast</item>
+        <item>preferences</item>
+        <item>credits_and_licences</item>
+    </string-array>
+
+    <string-array name="navigation_items">
+        <item>Overview</item>
+        <item>Statistics and Tracks</item>
+        <item>Notifications</item>
+        <item>Find my Bicycle</item>
+        <item>Map and Navigation</item>
+        <item>Theft Protection</item>
+        <item>Weather Forecast</item>
+        <item>Preferences</item>
+        <item>Credits and Licences</item>
+    </string-array>
+
+    <string name="overview">Overview</string>
+    <string name="statistics_and_tracks">Statistics and Tracks</string>
+    <string name="find_my_bicycle">Find my Bicycle</string>
+    <string name="notifications">Notifications</string>
+    <string name="map_and_navigation">Map and Navigation</string>
+    <string name="theft_protection">Theft Protection</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="preferences">Preferences</string>
+    <string name="credits_and_licences">Credits and Licences</string>
+    <string name="menu">Menu</string>
+</resources>
