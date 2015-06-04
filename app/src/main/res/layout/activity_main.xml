@@ -59,19 +59,9 @@
             <ImageButton
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:id="@+id/map_and_navigation_button"
-                android:layout_gravity="right|top"
-                android:background="@drawable/icon_button_selector"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/map_and_navigation_white"
-                android:layout_marginRight="54dp" />
-
-            <ImageButton
-                android:layout_width="36dp"
-                android:layout_height="36dp"
                 android:id="@+id/theft_protection_button"
                 android:layout_gravity="right|top"
-                android:layout_marginRight="106dp"
+                android:layout_marginRight="50dp"
                 android:background="@drawable/icon_button_selector"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/theft_protection_white" />

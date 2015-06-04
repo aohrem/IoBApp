@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Andi\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="H:\android-sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-ed0449c8bd17d18cb161ac64d71067e3f8f46207.jar" />
+        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-71af898ef2aff578b5277ba53d2a4b5d3abd21ce.jar" />
     </item>
     <item
-        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-f5628b200d0aac92756f3e0243e07e873a9f6cd6.jar" />
-    </item>
-    <item
-        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-95d473445ef0e2153899cb58693cb08de596ccd8.jar" />
-    </item>
-    <item
-        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-cfeee0d7fc0e7d2755e4a821784954d3719aaf7d.jar" />
+        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-3ca3d67f6d7cd74eea4553c604ab91ff69369086.jar" />
+    </item>
+    <item
+        jar="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-378deb7bc80ed37fdf51acfbee87587d2c0501db.jar" />
+    </item>
+    <item
+        jar="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-f6944b3644641d3e53978f208baaeffd9f875d8c.jar" />
     </item>
 
 </items>

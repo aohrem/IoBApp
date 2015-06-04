@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +57,7 @@ public class MainActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // initialize the default fragment for the content frame
-        Fragment fragment = new OverviewFragment();
+        Fragment fragment = new FindMyBicycleFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         mDrawerList.setItemChecked(mDefaultItemPosition, true);
@@ -104,7 +105,11 @@ public class MainActivity extends Activity {
 
             // set the navigation item icon
             ImageView icon = (ImageView) rowView.findViewById(R.id.navigation_drawer_icon);
-            int iconId = context.getResources().getIdentifier(iconNames.get(position), "mipmap",
+            String iconName = iconNames.get(position);
+            if ( mDrawerList.getCheckedItemPosition() == position ) {
+                iconName += "_hover";
+            }
+            int iconId = context.getResources().getIdentifier(iconName, "mipmap",
                     context.getPackageName());
             icon.setImageResource(iconId);
 
@@ -131,34 +136,22 @@ public class MainActivity extends Activity {
         // set the fragment depending on the clicked position
         switch (position) {
             case 0:
-                fragment = new OverviewFragment();
-                break;
-            case 1:
-                fragment = new StatisticsFragment();
-                break;
-            case 2:
-                fragment = new NotificationsFragment();
-                break;
-            case 3:
                 fragment = new FindMyBicycleFragment();
                 break;
-            case 4:
-                fragment = new MapFragment();
+            case 1:
+                fragment = new NotificationsFragment();
                 break;
-            case 5:
+            case 2:
                 fragment = new TheftProtectionFragment();
                 break;
-            case 6:
-                fragment = new WeatherForecastFragment();
-                break;
-            case 7:
+            case 3:
                 fragment = new PreferencesFragment();
                 break;
-            case 8:
+            case 4:
                 fragment = new CreditsFragment();
                 break;
             default:
-                fragment = new OverviewFragment();
+                fragment = new FindMyBicycleFragment();
                 break;
         }
 
@@ -168,10 +161,6 @@ public class MainActivity extends Activity {
 
         // set the clicked item as selected
         mDrawerList.setItemChecked(position, true);
-        /*TextView textView = (TextView) ((ViewGroup) view).getChildAt(1);
-        Log.d("",""+textView.getText());
-        textView.setText("abc");
-        textView.setTextColor(getResources().getColor(R.color.iob_app_white));*/
 
         // close the navigation drawer
         mDrawerLayout.closeDrawer(mLeftDrawerLayout);
