@@ -2,32 +2,186 @@
 <items version="2" >
 
     <item
-        jar="H:\android-sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.5.0\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-71af898ef2aff578b5277ba53d2a4b5d3abd21ce.jar" />
+        sha1="a78183f30e769a98ab4820794f597763088d3065">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-663009fdef7374e3d30658f1530dfb411dc3e782.jar" />
     </item>
     <item
-        jar="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.5.0\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-3ca3d67f6d7cd74eea4553c604ab91ff69369086.jar" />
+        sha1="f44d03c138cb6488fdbaa65e3a7e5878861a56d8">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-cf27cf5c62f3d704683136fe3cd455299468af3e.jar" />
     </item>
     <item
-        jar="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.5.0\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-378deb7bc80ed37fdf51acfbee87587d2c0501db.jar" />
+        sha1="6440e5e5cfe368f9bff3c537fb8988048069cb33">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-d1ed303d680c4696cf5b494000ab4663e4f72f54.jar" />
     </item>
     <item
-        jar="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="C:\Users\Andi\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="H:\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-f6944b3644641d3e53978f208baaeffd9f875d8c.jar" />
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-276eb088461c68dd4404b40787f11b2149502a69.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-7382349b98a21b25a669485df54f5926fe08ed1e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d405025c600055237c171a0bbabaa49d69696573">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-bfd651e1f0986b509f2e4e843c64731fc28a5370.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8d736fefa22d896e84a268354b3ed48a42663150">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-2d4e5b50d2079b7b5d8ae55eb64f106c6c3e35db.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-1bdc514c05a45053b0c91905d83ed383343e8d10.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="69dd177337ead693c408c8dddc9546bb6f1244fa">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-4afa049c79f3ffcd51405c167d8c7d93814ce207.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="272bc5d7063f24bc3a33ea1d318cde8f31f5ec4c">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-f51e3b238979fe8e6ccf24e59e4f7e0a6057a0f5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="06a42becc33232ec0ee125161da68c1829c9f8fd">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-9c65ab795b02bede712f6511cb2ad31ca32c0b33.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1a6411087ab88ce5542f593e63a2752b6b0d6f1a">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-56ee4194aa21b6fbfdbaae932df48507e410e208.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="29ebc7e04d877062317c8cc0e68b20f0c1fcda66">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-d9ea27076d9be99af44672f0b498ea99ac7bcead.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="63ec6e9f4fe5482a7447d0f3091b8e543a02554c">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-ddbc12642beced892e1b1369be6560144d106e0f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6836d188602ec5382d1967c58b00960eb8ff8773">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-07906c0ce401838cfa4f78c72e21fef0fbd37832.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e7b35244f50663b3f8d150714bca9ecd7a290da1">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-8f5af0f067b130db5293f196ea858b782bfb49b3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ba3df4eb0a630d7de294f0e48d3f9267d279b784">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-8f162a9dbe2813d29aa9f6f51c2596834a8263bb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ba207be21987c11b37d9f8faa08ed6e722569f30">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-025d866bc684a2d033b9e74e177b0011492c8b44.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1e98ef3f124bb7a11f8575f9ff5dfea330b61b6f">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-86fa00c3fb7ca3fdaf2439ab1dd7159fbb1f86ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="02bac2dc792d78241077861566f2c82da955e7fa">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-91e3d37e21c09775009d756c047f4530a957bd4f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a1372c17fccacca753d3951d3ad820571cbce075">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-177c6833c1cf63ef5ef53da1a80a967db1af634c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-e5c96f0c71b002fa901dc7f4cfc644a0f6da2720.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a172852a35ff919e85b9b7f14bbc15c5bee25520">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-8b16eb01ffe9527f81455366e9604df8004bedbb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f02127a85abd52a2cd526d4c2409f21969f80ee8">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-914757dd36b35347fd9ebf8b37706c2cf9485580.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8e3a972f28b8bae817e382257ba177a31bcadbbc">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-b1c7d9bdf21c5d6657c4f164e37bca7276601a38.jar" />
+    </item>
+    <item
+        jar="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.5.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="68c140702c7242d914655bcb3164d9e8c45b84cb">
+        <dex dex="C:\Users\Andi\Dropbox\Internet-of-Bicycles\IoBApp\app\build\intermediates\pre-dexed\debug\classes-23d2a871356a27c429ffd974ac6079520876ff56.jar" />
     </item>
 
 </items>

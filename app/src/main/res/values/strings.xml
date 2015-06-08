@@ -19,8 +19,9 @@
 
     <string name="find_my_bicycle">Find my Bicycle</string>
     <string name="notifications">Notifications</string>
-    <string name="theft_protection">Theft Protection</string>
     <string name="preferences">Preferences</string>
     <string name="credits_and_licences">Credits and Licences</string>
     <string name="menu">Menu</string>
+    <string name="theft_protection_bluetooth_test_button_send_text">Send Message</string>
+    <string name="theft_protection_bluetooth_test_button_receive_text">Receive Message</string>
 </resources>
