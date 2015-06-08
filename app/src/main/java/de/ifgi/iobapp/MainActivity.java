@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +19,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import de.ifgi.iobapp.fragments.CreditsFragment;
+import de.ifgi.iobapp.fragments.FindMyBicycleFragment;
+import de.ifgi.iobapp.fragments.NotificationsFragment;
+import de.ifgi.iobapp.fragments.PreferencesFragment;
+import de.ifgi.iobapp.fragments.TheftProtectionFragment;
+import de.ifgi.iobapp.style.FontsOverride;
 
 public class MainActivity extends Activity {
     private ArrayList<String> mIconNames;
@@ -36,6 +41,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // override default monospace font
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "Ubuntu-L.ttf");
 
         // file name list of the navigation drawer icons
         mIconNames = new ArrayList<String>(Arrays.asList(
