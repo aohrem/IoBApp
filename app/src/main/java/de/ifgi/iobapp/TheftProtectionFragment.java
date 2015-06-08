@@ -15,7 +15,7 @@ import de.ifgi.iobapp.bluetooth.BluetoothArduino;
 public class TheftProtectionFragment extends Fragment {
 
     private View mView;
-    private BluetoothArduino mBlue = BluetoothArduino.getInstance("FuckYouRobot");
+    private BluetoothArduino mBlue = BluetoothArduino.getInstance("IOB");
 
     public TheftProtectionFragment() {
 
