@@ -51,7 +51,6 @@ public class MainActivity extends Activity {
 
     private final int HEADER_ANIMATION_DURATION = 500;
 
-    private final int CLOSED_HEADER_IMAGE_TOP_MARGIN = -122;
     private final int CLOSED_HEADER_BIKE_RIGHT_MARGIN = 400;
     private final double CLOSED_HEADER_BIKE_PERCENT = 0.4;
 
@@ -217,60 +216,87 @@ public class MainActivity extends Activity {
         mDrawerLayout.closeDrawer(mLeftDrawerLayout);
     }
 
+    /*
+        Method is called to animate the close of the header image
+     */
     private void animateHeader() {
+        // get Views of all necessary icons and images
         final ImageView headerImage = (ImageView) findViewById(R.id.header_image);
         final ImageView largeBicycle = (ImageView) findViewById(R.id.large_bicycle);
         final ImageView smallBicycle = (ImageView) findViewById(R.id.small_bicycle);
+        ImageButton menuIcon = (ImageButton) findViewById(R.id.menu_button);
 
-        FrameLayout.LayoutParams lbParams = (FrameLayout.LayoutParams) largeBicycle.getLayoutParams();
+        // display pixel density
+        final double density = getResources().getDisplayMetrics().density;
+
+        // calculate new top margin for the header image
+        FrameLayout.LayoutParams miParams = (FrameLayout.LayoutParams) menuIcon.getLayoutParams();
+        double ratio = ((menuIcon.getHeight() + miParams.topMargin * 2.0) /
+                headerImage.getHeight()) - 1;
+        final int headerImageTopMargin = (int) (headerImage.getHeight() * ratio);
+
+        // save initial height, width  and right margin of the large bicycle image
+        FrameLayout.LayoutParams lbParams =
+                (FrameLayout.LayoutParams) largeBicycle.getLayoutParams();
         final int largeBicycleHeight = lbParams.height;
         final int largeBicycleWidth = lbParams.width;
         final int largeBicycleRightMargin = lbParams.rightMargin;
 
-        FrameLayout.LayoutParams sbParams = (FrameLayout.LayoutParams) smallBicycle.getLayoutParams();
+        // save initial height, width and right margin of the small bicycle image
+        FrameLayout.LayoutParams sbParams =
+                (FrameLayout.LayoutParams) smallBicycle.getLayoutParams();
         final int smallBicycleHeight = sbParams.height;
         final int smallBicycleWidth = sbParams.width;
         final int smallBicycleRightMargin = sbParams.rightMargin;
 
-        final double density = getResources().getDisplayMetrics().density;
-
+        // animation for the header image
         Animation headerImageAnimation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) headerImage.getLayoutParams();
-                params.topMargin = (int) (CLOSED_HEADER_IMAGE_TOP_MARGIN * density * interpolatedTime);
+                // animate the top margin of the header image from 0 to the calculated new value
+                FrameLayout.LayoutParams params =
+                        (FrameLayout.LayoutParams) headerImage.getLayoutParams();
+                params.topMargin = (int) (headerImageTopMargin * interpolatedTime);
                 headerImage.setLayoutParams(params);
             }
         };
         headerImageAnimation.setDuration(HEADER_ANIMATION_DURATION);
 
+        // animation of the large bicycle image
         Animation largeBicycleAnimation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) largeBicycle.getLayoutParams();
+                // animate the height, width and right margin using a percent value
+                FrameLayout.LayoutParams params =
+                        (FrameLayout.LayoutParams) largeBicycle.getLayoutParams();
                 double factor = 1 - (interpolatedTime * (1 - CLOSED_HEADER_BIKE_PERCENT));
                 params.height = (int) (largeBicycleHeight * factor);
                 params.width = (int) (largeBicycleWidth * factor);
-                params.rightMargin = (int) (largeBicycleRightMargin + (CLOSED_HEADER_BIKE_RIGHT_MARGIN * density * interpolatedTime));
+                params.rightMargin = (int) (largeBicycleRightMargin +
+                        (CLOSED_HEADER_BIKE_RIGHT_MARGIN * density * interpolatedTime));
                 largeBicycle.setLayoutParams(params);
             }
         };
         largeBicycleAnimation.setDuration(HEADER_ANIMATION_DURATION);
 
+        // animation of the small bicycle image
         Animation smallBicycleAnimation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) smallBicycle.getLayoutParams();
+                // animate the height, width and right margin using a percent value
+                FrameLayout.LayoutParams params =
+                        (FrameLayout.LayoutParams) smallBicycle.getLayoutParams();
                 double factor = 1 - (interpolatedTime * (1 - CLOSED_HEADER_BIKE_PERCENT));
                 params.height = (int) (smallBicycleHeight * factor);
                 params.width = (int) (smallBicycleWidth * factor);
-                params.rightMargin = (int) (smallBicycleRightMargin + (CLOSED_HEADER_BIKE_RIGHT_MARGIN * density * interpolatedTime));
+                params.rightMargin = (int) (smallBicycleRightMargin +
+                        (CLOSED_HEADER_BIKE_RIGHT_MARGIN * density * interpolatedTime));
                 smallBicycle.setLayoutParams(params);
             }
         };
         smallBicycleAnimation.setDuration(HEADER_ANIMATION_DURATION);
 
-
+        // start all animations
         headerImage.startAnimation(headerImageAnimation);
         largeBicycle.startAnimation(largeBicycleAnimation);
         smallBicycle.startAnimation(smallBicycleAnimation);

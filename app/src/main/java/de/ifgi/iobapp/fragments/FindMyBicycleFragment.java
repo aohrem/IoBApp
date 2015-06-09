@@ -1,21 +1,16 @@
 package de.ifgi.iobapp.fragments;
 
 import android.app.Fragment;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
@@ -28,8 +23,8 @@ import de.ifgi.iobapp.R;
 public class FindMyBicycleFragment extends Fragment {
 
     private static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-    private GoogleMap map;
-    private MapView mapView;
+    private GoogleMap mMap;
+    private MapView mMapView;
 
     public FindMyBicycleFragment() {
 
@@ -50,15 +45,15 @@ public class FindMyBicycleFragment extends Fragment {
 
         switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()) ) {
             case ConnectionResult.SUCCESS:
-                mapView = (MapView) view.findViewById(R.id.map);
-                mapView.onCreate(savedInstanceState);
+                mMapView = (MapView) view.findViewById(R.id.map);
+                mMapView.onCreate(savedInstanceState);
 
-                if (mapView != null) {
-                    map = mapView.getMap();
+                if (mMapView != null) {
+                    mMap = mMapView.getMap();
 
-                    Marker hamburg = map.addMarker(new MarkerOptions().position(HAMBURG).title("Hamburg"));
+                    Marker hamburg = mMap.addMarker(new MarkerOptions().position(HAMBURG).title("Hamburg"));
 
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
                 }
                 break;
             case ConnectionResult.SERVICE_MISSING:
@@ -74,19 +69,25 @@ public class FindMyBicycleFragment extends Fragment {
 
     @Override
     public void onResume() {
-        mapView.onResume();
+        if (mMapView != null) {
+            mMapView.onResume();
+        }
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        if (mMapView != null) {
+            mMapView.onDestroy();
+        }
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        if (mMapView != null) {
+            mMapView.onLowMemory();
+        }
     }
 }
