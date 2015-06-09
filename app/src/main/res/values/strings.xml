@@ -24,4 +24,8 @@
     <string name="menu">Menu</string>
     <string name="theft_protection_bluetooth_test_button_send_text">Send Message</string>
     <string name="theft_protection_bluetooth_test_button_receive_text">Receive Message</string>
+    <string name="relocate_my_bicycle">Relocate my Bicycle</string>
+    <string name="credits_headline_arduino_android_bluetooth">Android with Arduino - Bluetooth</string>
+    <string name="credits_text_arduino_android_bluetooth_1">Library for Arduino and Android classes to easily connect your mobile device with an Arduino board by Aron Bordin.</string>
+    <string name="credits_text_arduino_android_bluetooth_2">GitHub: https://github.com/aron-bordin/Android-with-Arduino-Bluetooth</string>
 </resources>

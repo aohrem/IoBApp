@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
                         y2 = event.getY();
                         float deltaY = y2 - y1;
                         if (deltaY < -MIN_DISTANCE) {
-                            if (! headerClosed) {
+                            if (!headerClosed) {
                                 animateHeader();
                                 headerClosed = true;
                             }
