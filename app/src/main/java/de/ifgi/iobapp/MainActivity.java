@@ -6,11 +6,16 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,12 +35,25 @@ import de.ifgi.iobapp.style.FontsOverride;
 public class MainActivity extends Activity {
     private ArrayList<String> mIconNames;
     private ArrayList<String> mNavigationItems;
+
     private DrawerLayout mDrawerLayout;
     private LinearLayout mLeftDrawerLayout;
     private ListView mDrawerList;
+
     private ImageButton mMenuButton;
     private LinearLayout mMenuCloseButton;
-    private int mDefaultItemPosition = 0;
+
+    private boolean headerClosed = false;
+    private float y1, y2;
+
+    private final int MIN_DISTANCE = 150;
+    private final int DEFAULT_ITEM_POSITION = 0;
+
+    private final int HEADER_ANIMATION_DURATION = 500;
+
+    private final int CLOSED_HEADER_IMAGE_TOP_MARGIN = -122;
+    private final int CLOSED_HEADER_BIKE_RIGHT_MARGIN = 400;
+    private final double CLOSED_HEADER_BIKE_PERCENT = 0.4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +86,7 @@ public class MainActivity extends Activity {
         Fragment fragment = new FindMyBicycleFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        mDrawerList.setItemChecked(mDefaultItemPosition, true);
+        mDrawerList.setItemChecked(DEFAULT_ITEM_POSITION, true);
 
         // set click listener for the menu button
         mMenuButton = (ImageButton) findViewById(R.id.menu_button);
@@ -85,6 +103,31 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(mLeftDrawerLayout);
+            }
+        });
+
+        // swipe bikes up gesture recognition
+        final View headerImage = findViewById(R.id.header_image);
+        headerImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        y1 = event.getY();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        y2 = event.getY();
+                        float deltaY = y2 - y1;
+                        if (deltaY < -MIN_DISTANCE) {
+                            if (! headerClosed) {
+                                animateHeader();
+                                headerClosed = true;
+                            }
+                            return true;
+                        }
+                        break;
+                }
+                return false;
             }
         });
     }
@@ -172,5 +215,64 @@ public class MainActivity extends Activity {
 
         // close the navigation drawer
         mDrawerLayout.closeDrawer(mLeftDrawerLayout);
+    }
+
+    private void animateHeader() {
+        final ImageView headerImage = (ImageView) findViewById(R.id.header_image);
+        final ImageView largeBicycle = (ImageView) findViewById(R.id.large_bicycle);
+        final ImageView smallBicycle = (ImageView) findViewById(R.id.small_bicycle);
+
+        FrameLayout.LayoutParams lbParams = (FrameLayout.LayoutParams) largeBicycle.getLayoutParams();
+        final int largeBicycleHeight = lbParams.height;
+        final int largeBicycleWidth = lbParams.width;
+        final int largeBicycleRightMargin = lbParams.rightMargin;
+
+        FrameLayout.LayoutParams sbParams = (FrameLayout.LayoutParams) smallBicycle.getLayoutParams();
+        final int smallBicycleHeight = sbParams.height;
+        final int smallBicycleWidth = sbParams.width;
+        final int smallBicycleRightMargin = sbParams.rightMargin;
+
+        final double density = getResources().getDisplayMetrics().density;
+
+        Animation headerImageAnimation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) headerImage.getLayoutParams();
+                params.topMargin = (int) (CLOSED_HEADER_IMAGE_TOP_MARGIN * density * interpolatedTime);
+                headerImage.setLayoutParams(params);
+            }
+        };
+        headerImageAnimation.setDuration(HEADER_ANIMATION_DURATION);
+
+        Animation largeBicycleAnimation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) largeBicycle.getLayoutParams();
+                double factor = 1 - (interpolatedTime * (1 - CLOSED_HEADER_BIKE_PERCENT));
+                params.height = (int) (largeBicycleHeight * factor);
+                params.width = (int) (largeBicycleWidth * factor);
+                params.rightMargin = (int) (largeBicycleRightMargin + (CLOSED_HEADER_BIKE_RIGHT_MARGIN * density * interpolatedTime));
+                largeBicycle.setLayoutParams(params);
+            }
+        };
+        largeBicycleAnimation.setDuration(HEADER_ANIMATION_DURATION);
+
+        Animation smallBicycleAnimation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) smallBicycle.getLayoutParams();
+                double factor = 1 - (interpolatedTime * (1 - CLOSED_HEADER_BIKE_PERCENT));
+                params.height = (int) (smallBicycleHeight * factor);
+                params.width = (int) (smallBicycleWidth * factor);
+                params.rightMargin = (int) (smallBicycleRightMargin + (CLOSED_HEADER_BIKE_RIGHT_MARGIN * density * interpolatedTime));
+                smallBicycle.setLayoutParams(params);
+            }
+        };
+        smallBicycleAnimation.setDuration(HEADER_ANIMATION_DURATION);
+
+
+        headerImage.startAnimation(headerImageAnimation);
+        largeBicycle.startAnimation(largeBicycleAnimation);
+        smallBicycle.startAnimation(smallBicycleAnimation);
     }
 }
