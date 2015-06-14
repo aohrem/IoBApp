@@ -1,9 +1,14 @@
 package de.ifgi.iobapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +49,8 @@ public class MainActivity extends Activity {
     private ImageButton mMenuButton;
     private LinearLayout mMenuCloseButton;
 
+    private LocationManager mLocationManager;
+
     private boolean headerClosed = false;
     private float y1, y2;
 
@@ -58,6 +66,30 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if ( ! mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage(getResources().getString(R.string.please_enable_location));
+
+            dialog.setPositiveButton(getResources().getString(R.string.open_location_settings),
+                    new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                }
+            });
+
+            dialog.setNegativeButton(getResources().getString(R.string.cancel),
+                    new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                }
+            });
+
+            dialog.show();
+        }
 
         // override default monospace font
         FontsOverride.setDefaultFont(this, "MONOSPACE", "Ubuntu-L.ttf");

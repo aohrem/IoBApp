@@ -28,4 +28,8 @@
     <string name="credits_headline_arduino_android_bluetooth">Android with Arduino - Bluetooth</string>
     <string name="credits_text_arduino_android_bluetooth_1">Library for Arduino and Android classes to easily connect your mobile device with an Arduino board by Aron Bordin.</string>
     <string name="credits_text_arduino_android_bluetooth_2">GitHub: https://github.com/aron-bordin/Android-with-Arduino-Bluetooth</string>
+    <string name="please_enable_location">Please enable GPS on your device, so we can show your position. Otherwise, this app will not work properly.</string>
+    <string name="open_location_settings">Open location settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="create_notification">Create Notification</string>
 </resources>

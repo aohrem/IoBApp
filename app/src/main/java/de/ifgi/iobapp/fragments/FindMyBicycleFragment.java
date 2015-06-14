@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,11 @@ public class FindMyBicycleFragment extends Fragment {
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
 
+        if ( mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
+            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            updateYourLocationMarker(location);
+        }
+
         Button relocateButton = (Button) view.findViewById(R.id.relocate_button);
         relocateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +70,20 @@ public class FindMyBicycleFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void updateYourLocationMarker(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        if ( mYourPositionMarker == null ) {
+            mYourPositionMarker = mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title("Your Position")
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_your_position)));
+        }
+        else {
+            mYourPositionMarker.setPosition(latLng);
+        }
     }
 
     private void setUpMap(View view, Bundle savedInstanceState) {
@@ -100,21 +120,10 @@ public class FindMyBicycleFragment extends Fragment {
         }
     }
 
-
     private class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(final Location location) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-            if ( mYourPositionMarker == null ) {
-                mYourPositionMarker = mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title("Your Position")
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_your_position)));
-            }
-            else {
-                mYourPositionMarker.setPosition(latLng);
-            }
+            updateYourLocationMarker(location);
         }
 
         @Override
