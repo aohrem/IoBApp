@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +33,7 @@ import de.ifgi.iobapp.fragments.CreditsFragment;
 import de.ifgi.iobapp.fragments.FindMyBicycleFragment;
 import de.ifgi.iobapp.fragments.NotificationsFragment;
 import de.ifgi.iobapp.fragments.PreferencesFragment;
+import de.ifgi.iobapp.fragments.TagFragment;
 import de.ifgi.iobapp.fragments.TheftProtectionFragment;
 import de.ifgi.iobapp.style.FontsOverride;
 
@@ -62,16 +61,20 @@ public class MainActivity extends Activity {
     private final int CLOSED_HEADER_BIKE_RIGHT_MARGIN = 400;
     private final double CLOSED_HEADER_BIKE_PERCENT = 0.4;
 
+    private final int FRAGMENT_POSITIONS = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // initialise the location manager and open dialog if gps is disabled
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if ( ! mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage(getResources().getString(R.string.please_enable_location));
 
+            // open location settings button
             dialog.setPositiveButton(getResources().getString(R.string.open_location_settings),
                     new DialogInterface.OnClickListener() {
                 @Override
@@ -81,6 +84,7 @@ public class MainActivity extends Activity {
                 }
             });
 
+            // cancel button
             dialog.setNegativeButton(getResources().getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                 @Override
@@ -163,6 +167,26 @@ public class MainActivity extends Activity {
         });
     }
 
+    // override the back button functionality to include fragments in the back stack
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager fm = getFragmentManager();
+        String stackName = null;
+
+        for (int entry = 0; entry < fm.getBackStackEntryCount(); entry++) {
+            stackName = fm.getBackStackEntryAt(entry).getName();
+        }
+
+        // set the right item in the navigation drawer checked when pressing the back button
+        for ( int i = 0; i < FRAGMENT_POSITIONS; i++ ) {
+            if ( ((TagFragment) getFragmentByPosition(i)).getFragmentTag().equals(stackName) ) {
+                mDrawerList.setItemChecked(i, true);
+                return;
+            }
+        }
+    }
+
     // adapter initializes the navigation drawer ListView and fills it with the icons and item texts
     private class NavigationDrawerAdapter extends ArrayAdapter<String> {
         Context context;
@@ -211,11 +235,10 @@ public class MainActivity extends Activity {
         }
     }
 
-    // react to clicks on the navigation drawer items
-    private void selectItem(int position, View view) {
+    // method returns the fragment according its position in the navigation drawer
+    private Fragment getFragmentByPosition(int position) {
         Fragment fragment;
 
-        // set the fragment depending on the clicked position
         switch (position) {
             case 0:
                 fragment = new FindMyBicycleFragment();
@@ -237,9 +260,17 @@ public class MainActivity extends Activity {
                 break;
         }
 
+        return fragment;
+    }
+
+    // react to clicks on the navigation drawer items
+    private void selectItem(int position, View view) {
+        Fragment fragment = getFragmentByPosition(position);
+
         // exchange the old fragment with the new one
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        String fragmentTag = ((TagFragment) fragment).getFragmentTag();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(fragmentTag).commit();
 
         // set the clicked item as selected
         mDrawerList.setItemChecked(position, true);

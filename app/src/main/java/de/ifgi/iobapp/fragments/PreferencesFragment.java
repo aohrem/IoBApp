@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import de.ifgi.iobapp.R;
 
 
-public class PreferencesFragment extends Fragment {
+public class PreferencesFragment extends Fragment implements TagFragment {
+
+    private static final String TAG = "Preferences";
 
     public PreferencesFragment() {
 
@@ -19,7 +21,13 @@ public class PreferencesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_preferences, container, false);
+        View view = inflater.inflate(R.layout.fragment_preferences, container, false);
+
+        return view;
+    }
+
+    public String getFragmentTag() {
+        return TAG;
     }
 
 

@@ -25,8 +25,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.ifgi.iobapp.R;
 
+public class FindMyBicycleFragment extends Fragment implements TagFragment {
 
-public class FindMyBicycleFragment extends Fragment {
+    private static final String TAG = "FindMyBicycle";
 
     private static final LatLng HAMBURG = new LatLng(53.558, 9.927);
     private GoogleMap mMap;
@@ -34,6 +35,8 @@ public class FindMyBicycleFragment extends Fragment {
 
     private final LocationListener mLocationListener = new MyLocationListener();
     private LocationManager mLocationManager;
+    private String mLocationProvider = LocationManager.GPS_PROVIDER;
+
     private Marker mYourPositionMarker;
     private Marker mYourBicycleMarker;
 
@@ -51,16 +54,6 @@ public class FindMyBicycleFragment extends Fragment {
 
         setUpMap(view, savedInstanceState);
 
-        mLocationManager = (LocationManager) getActivity().getSystemService(
-                getActivity().LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-                LOCATION_REFRESH_DISTANCE, mLocationListener);
-
-        if ( mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
-            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            updateYourLocationMarker(location);
-        }
-
         Button relocateButton = (Button) view.findViewById(R.id.relocate_button);
         relocateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,16 +66,18 @@ public class FindMyBicycleFragment extends Fragment {
     }
 
     private void updateYourLocationMarker(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        if ( location != null) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if ( mYourPositionMarker == null ) {
-            mYourPositionMarker = mMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title("Your Position")
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_your_position)));
-        }
-        else {
-            mYourPositionMarker.setPosition(latLng);
+            if ( mYourPositionMarker == null ) {
+                mYourPositionMarker = mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(getString(R.string.your_location))
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_your_position)));
+            }
+            else {
+                mYourPositionMarker.setPosition(latLng);
+            }
         }
     }
 
@@ -94,12 +89,17 @@ public class FindMyBicycleFragment extends Fragment {
                 mMapView = (MapView) view.findViewById(R.id.map);
                 mMapView.onCreate(savedInstanceState);
 
+                mLocationManager = (LocationManager) getActivity().getSystemService(
+                        getActivity().LOCATION_SERVICE);
+
                 if (mMapView != null) {
                     mMap = mMapView.getMap();
 
+                    startLocationListener();
+
                     mYourBicycleMarker = mMap.addMarker(new MarkerOptions()
                             .position(HAMBURG)
-                            .title("Your Bicycle")
+                            .title(getString(R.string.your_bicycle))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_bicycle)));
                     mYourBicycleMarker.showInfoWindow();
 
@@ -107,17 +107,31 @@ public class FindMyBicycleFragment extends Fragment {
                 }
                 break;
             case ConnectionResult.SERVICE_MISSING:
-                Toast.makeText(getActivity(), "Google Play Services missing",
+                Toast.makeText(getActivity(), getString(R.string.google_play_services_missing),
                         Toast.LENGTH_SHORT).show();
                 break;
             case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-                Toast.makeText(getActivity(), "Please update Google Play Services",
+                Toast.makeText(getActivity(), getString(R.string.please_update_google_play_service),
                         Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(getActivity(), GooglePlayServicesUtil
                         .isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void startLocationListener() {
+        if ( mLocationManager.isProviderEnabled(mLocationProvider) ) {
+            Location location = mLocationManager.getLastKnownLocation(mLocationProvider);
+            updateYourLocationMarker(location);
+        }
+
+        mLocationManager.requestLocationUpdates(mLocationProvider, LOCATION_REFRESH_TIME,
+                LOCATION_REFRESH_DISTANCE, mLocationListener);
+    }
+
+    private void stopLocationListener() {
+        mLocationManager.removeUpdates(mLocationListener);
     }
 
     private class MyLocationListener implements LocationListener {
@@ -147,22 +161,40 @@ public class FindMyBicycleFragment extends Fragment {
         if (mMapView != null) {
             mMapView.onResume();
         }
+
+        startLocationListener();
+
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (mMapView != null) {
             mMapView.onDestroy();
         }
+
+        stopLocationListener();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        stopLocationListener();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+
         if (mMapView != null) {
             mMapView.onLowMemory();
         }
+    }
+
+    public String getFragmentTag() {
+        return TAG;
     }
 }

@@ -19,18 +19,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Large Text"
-                android:textSize="20dp"
-                android:id="@+id/notificationName"
+                android:textSize="22dp"
+                android:id="@+id/notification_name"
                 android:textColor="@color/iob_app_red"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="80dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Large Text"
-                android:textSize="15dp"
-                android:id="@+id/notificationText"
+                android:textSize="17dp"
+                android:id="@+id/notification_text"
                 android:textColor="@color/iob_app_grey" />
         </LinearLayout>
 
@@ -43,17 +42,17 @@
             <ImageButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/editButton"
+                android:id="@+id/edit_button"
                 android:src="@mipmap/edit"
-                android:background="@android:color/transparent"
+                android:background="@drawable/grey_button_selector"
                 android:adjustViewBounds="true" />
 
             <ImageButton
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/deleteButton"
+                android:id="@+id/delete_button"
                 android:src="@mipmap/delete"
-                android:background="@android:color/transparent"
+                android:background="@drawable/grey_button_selector"
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="15dp" />
         </LinearLayout>

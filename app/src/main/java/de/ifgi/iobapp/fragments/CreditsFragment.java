@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import de.ifgi.iobapp.R;
 
 
-public class CreditsFragment extends Fragment {
+public class CreditsFragment extends Fragment implements TagFragment {
+
+    private static final String TAG = "Credits";
 
     public CreditsFragment() {
 
@@ -20,6 +22,10 @@ public class CreditsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_credits, container, false);
+    }
+
+    public String getFragmentTag() {
+        return TAG;
     }
 
 
