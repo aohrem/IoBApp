@@ -1,12 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="5dp">
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/theft_protection"
@@ -16,25 +16,38 @@
             android:paddingBottom="20dp"
             android:paddingTop="10dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bluetooth_mesage_text_view"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:id="@+id/current_status_frame"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/current_status"
-                android:id="@+id/textView"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:textSize="20dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right">
+                android:layout_gravity="right"
+                android:id="@+id/current_status_layout"
+                android:background="@drawable/grey_button_selector"
+                android:paddingLeft="10dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -44,76 +57,41 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/current_status_text_view"
-                        android:layout_gravity="center_vertical" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="20dp" />
                 </FrameLayout>
 
-                <ImageButton
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:id="@+id/current_status_image_button"
-                    android:background="@drawable/grey_button_selector"
-                    android:adjustViewBounds="true"
-                    android:layout_marginLeft="10dp" />
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/current_status_image" />
             </LinearLayout>
         </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/mode"
-                android:layout_gravity="center_vertical" />
-
-            <ToggleButton
-                android:layout_width="64dp"
-                android:layout_height="41dp"
-                android:background="@drawable/toggle_selector"
-                android:textOff=""
-                android:textOn=""
-                android:id="@+id/mode_toggle_button"
-                android:layout_gravity="right" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test area"
-                android:textSize="30dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/theft_protection_bluetooth_test_button_send_text"
-                android:id="@+id/button_send"
-                android:layout_marginLeft="10dp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/theft_protection_bluetooth_test_button_receive_text"
-                android:id="@+id/button_receive"
-                android:layout_marginLeft="10dp" />
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/message_receive_text"
-                android:layout_marginLeft="10dp" />
-        </LinearLayout>
-
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/iob_app_transparent_grey"
+        android:id="@+id/start_scan_frame"
+        android:visibility="gone">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/start_scan"
+            android:id="@+id/start_scan_button"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_red_selector"
+            android:textColor="@color/iob_app_white"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginTop="75dp" />
+    </FrameLayout>
 
 </FrameLayout>

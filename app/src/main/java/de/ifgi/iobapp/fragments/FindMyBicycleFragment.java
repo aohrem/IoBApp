@@ -1,6 +1,8 @@
 package de.ifgi.iobapp.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,15 +26,31 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import de.ifgi.iobapp.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONTokener;
 
-public class FindMyBicycleFragment extends Fragment implements TagFragment {
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import de.ifgi.iobapp.R;
+import de.ifgi.iobapp.api.IoBAPI;
+import de.ifgi.iobapp.api.GetJSONClient;
+import de.ifgi.iobapp.api.MessageJSONParser;
+import de.ifgi.iobapp.model.Message;
+import de.ifgi.iobapp.model.MessageComparator;
+
+public class FindMyBicycleFragment extends Fragment implements TagFragment, GetJSONClient.GetJSONListener {
 
     private static final String TAG = "FindMyBicycle";
+    private static final String PACKAGE = "de.ifgi.iobapp";
+    private static final String DEVICE_ID = ".deviceid";
+    private static final LatLng LAT_LON_UNKNOWN = new LatLng(999, 999);
 
-    private static final LatLng HAMBURG = new LatLng(53.558, 9.927);
     private GoogleMap mMap;
     private MapView mMapView;
+    private ProgressBar mSpinner;
 
     private final LocationListener mLocationListener = new MyLocationListener();
     private LocationManager mLocationManager;
@@ -39,6 +58,7 @@ public class FindMyBicycleFragment extends Fragment implements TagFragment {
 
     private Marker mYourPositionMarker;
     private Marker mYourBicycleMarker;
+    private LatLng mBicycleLocation;
 
     private static final long LOCATION_REFRESH_DISTANCE = 1;
     private static final long LOCATION_REFRESH_TIME = 1;
@@ -52,17 +72,104 @@ public class FindMyBicycleFragment extends Fragment implements TagFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_find_my_bicycle, container, false);
 
+        mSpinner = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mSpinner.setVisibility(View.GONE);
+
         setUpMap(view, savedInstanceState);
 
         Button relocateButton = (Button) view.findViewById(R.id.relocate_button);
         relocateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mSpinner.setVisibility(View.VISIBLE);
+                updateBicycleLocation();
             }
         });
 
         return view;
+    }
+
+    private void updateBicycleLocation() {
+        final SharedPreferences prefs = getActivity().getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
+        String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
+        IoBAPI ioBAPI = new IoBAPI(this);
+        ioBAPI.getAllMessagesFromDevice(deviceId);
+    }
+
+    @Override
+    public void onRemoteCallComplete(String jsonString) {
+        mSpinner.setVisibility(View.GONE);
+
+        if (jsonString != null) {
+            JSONArray jsonResult = null;
+            try {
+                jsonResult = (JSONArray) new JSONTokener(jsonString).nextValue();
+                Log.d(TAG, jsonResult.toString());
+
+                if (jsonResult != null) {
+                    MessageJSONParser messageJsonParser = new MessageJSONParser();
+                    ArrayList<Message> messages = messageJsonParser.parseMessages(jsonResult);
+                    Log.d(TAG, messages.toString());
+
+                    mBicycleLocation = getLastKnownLocation(messages);
+                    if (mBicycleLocation != LAT_LON_UNKNOWN) {
+                        updateYourBicycleMarker();
+                    }
+                    else {
+                        Log.e(TAG, getString(R.string.error_json_array_empty));
+                        Toast.makeText(getActivity(), getString(R.string.location_not_found),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage() + "");
+                Toast.makeText(getActivity(), getString(R.string.error_loading_bike_location),
+                        Toast.LENGTH_LONG).show();
+            } catch (ParseException e) {
+                Log.e(TAG, e.getMessage() + "");
+                Toast.makeText(getActivity(), getString(R.string.error_loading_bike_location),
+                        Toast.LENGTH_LONG).show();
+            } catch (ClassCastException e) {
+                Log.e(TAG, e.getMessage() + " " + getString(R.string.error_invalid_json_array));
+                Toast.makeText(getActivity(), getString(R.string.error_loading_bike_location),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            Log.e(TAG, getString(R.string.error_http_request));
+            Toast.makeText(getActivity(), getString(R.string.error_loading_bike_location),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private LatLng getLastKnownLocation(ArrayList<Message> messages) {
+        if (messages.size() == 0) {
+            return LAT_LON_UNKNOWN;
+        }
+        else {
+            Collections.sort(messages, new MessageComparator());
+            int lastIndex = messages.size() - 1;
+            Message lastMessage = messages.get(lastIndex);
+
+            return new LatLng(lastMessage.getLat(), lastMessage.getLon());
+        }
+    }
+
+    private void updateYourBicycleMarker() {
+        if ( mYourBicycleMarker == null ) {
+            mYourBicycleMarker = mMap.addMarker(new MarkerOptions()
+                    .position(mBicycleLocation)
+                    .title(getString(R.string.your_bicycle))
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_bicycle)));
+        }
+        else {
+            mYourBicycleMarker.hideInfoWindow();
+            mYourBicycleMarker.setPosition(mBicycleLocation);
+        }
+
+        mYourBicycleMarker.showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mBicycleLocation, 12));
     }
 
     private void updateYourLocationMarker(Location location) {
@@ -97,26 +204,20 @@ public class FindMyBicycleFragment extends Fragment implements TagFragment {
 
                     startLocationListener();
 
-                    mYourBicycleMarker = mMap.addMarker(new MarkerOptions()
-                            .position(HAMBURG)
-                            .title(getString(R.string.your_bicycle))
-                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_bicycle)));
-                    mYourBicycleMarker.showInfoWindow();
-
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 12));
+                    updateBicycleLocation();
                 }
                 break;
             case ConnectionResult.SERVICE_MISSING:
                 Toast.makeText(getActivity(), getString(R.string.google_play_services_missing),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
                 break;
             case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
                 Toast.makeText(getActivity(), getString(R.string.please_update_google_play_service),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
                 break;
             default:
                 Toast.makeText(getActivity(), GooglePlayServicesUtil
-                        .isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_SHORT).show();
+                        .isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_LONG).show();
         }
     }
 

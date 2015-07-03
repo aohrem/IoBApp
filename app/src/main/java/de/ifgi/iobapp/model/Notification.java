@@ -11,6 +11,7 @@ public class Notification implements Serializable {
     private double regionCenterLon;
     private int regionRadius;
     private boolean enters;
+    private int geofenceId;
 
     public Notification(String name, String text, double regionCenterLat, double regionCenterLon, int regionRadius, boolean enters) {
         this.name = name;
@@ -69,7 +70,26 @@ public class Notification implements Serializable {
         this.enters = enters;
     }
 
+    public int getGeofenceId() {
+        return geofenceId;
+    }
+
+    public void setGeofenceId(int geofenceId) {
+        this.geofenceId = geofenceId;
+    }
+
     public String toString() {
-        return name + "; " + text + "; " + regionCenterLat + "; " + regionCenterLon + "; " + regionRadius + ", " + enters;
+        return geofenceId + "; " + name + "; " + text + "; " + regionCenterLat + "; " + regionCenterLon + "; " + regionRadius + "; " + enters;
+    }
+
+    public boolean equals(Notification notification) {
+        DoubleComparator dc = new DoubleComparator();
+        return (notification.getGeofenceId() == getGeofenceId())
+                && (notification.getName().equals(getName()))
+                && (notification.getText().equals(getText()))
+                && dc.equals(notification.getRegionCenterLat(), getRegionCenterLat())
+                && dc.equals(notification.getRegionCenterLon(), getRegionCenterLon())
+                && (notification.getRegionRadius() == getRegionRadius())
+                && (notification.isEnters() == isEnters());
     }
 }

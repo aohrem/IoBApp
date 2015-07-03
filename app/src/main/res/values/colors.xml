@@ -4,6 +4,7 @@
     <color name="iob_app_medium_light_grey">#e8e8e8</color>
     <color name="iob_app_medium_grey">#d1d1d1</color>
     <color name="iob_app_grey">#616161</color>
+    <color name="iob_app_transparent_grey">#AA616161</color>
     <color name="iob_app_red">#9f0015</color>
     <color name="iob_app_transparent_white">#33ffffff</color>
     <color name="iob_app_white">#ffffff</color>

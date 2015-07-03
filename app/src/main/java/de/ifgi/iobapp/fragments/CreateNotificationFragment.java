@@ -1,6 +1,8 @@
 package de.ifgi.iobapp.fragments;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -23,7 +26,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -37,15 +39,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.ifgi.iobapp.MainActivity;
 import de.ifgi.iobapp.R;
+import de.ifgi.iobapp.alarm.AlarmManagerBroadcastReceiver;
+import de.ifgi.iobapp.api.GeofencePutListener;
+import de.ifgi.iobapp.api.IoBAPI;
+import de.ifgi.iobapp.api.GeofencePostListener;
 import de.ifgi.iobapp.map.ScrollMapView;
+import de.ifgi.iobapp.model.Geofence;
 import de.ifgi.iobapp.model.Notification;
-import de.ifgi.iobapp.persistance.InternalStorage;
+import de.ifgi.iobapp.persistance.NotificationManager;
 
 public class CreateNotificationFragment extends Fragment implements TagFragment {
 
-    public static final String INTERNAL_STORAGE_KEY = "notifications";
     private static final String TAG = "CreateNotification";
+    private static final String PACKAGE = "de.ifgi.iobapp";
+    private static final String DEVICE_ID = ".deviceid";
     private static final LatLng GERMANY = new LatLng(51.429946, 10.355242);
     private static final double COORD_NO_VALUE = 1000.0;
     private static final int DEFAULT_REGION_RADIUS = 5;
@@ -57,10 +66,12 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
     private ScrollMapView mMapView;
     private EditText mNotificationRadiusEdit;
     private RadioGroup mRadioEntersLeaves;
+    private ProgressBar mProgressBar;
     private Button mCreateButton;
 
     private Notification mCreatedNotification;
     private boolean mEditMode;
+    private int mGeofenceId;
 
     private GoogleMap mMap;
     private Marker mRegionCenterMarker;
@@ -68,6 +79,8 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
 
     private int mRegionRadius = DEFAULT_REGION_RADIUS;
     private String mNotificationValidationMessage = "";
+
+    private AlarmManagerBroadcastReceiver mAlarm;
 
     public CreateNotificationFragment() {
 
@@ -88,6 +101,8 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_notification, container, false);
+
+        mAlarm = new AlarmManagerBroadcastReceiver();
 
         mEditMode = getArguments().getBoolean("editMode");
 
@@ -127,9 +142,11 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().equals("")) {
                     mRegionRadius = Integer.parseInt(editable.toString());
-                } else {
+                }
+                else {
                     mRegionRadius = 0;
                 }
+
                 if (mRegionCenterMarker != null) {
                     updateMarkerRadius();
                 }
@@ -137,6 +154,8 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
         });
 
         mRadioEntersLeaves = (RadioGroup) view.findViewById(R.id.radio_enters_leaves);
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.create_progress_bar);
 
         mCreateButton = (Button) view.findViewById(R.id.create_button);
         mCreateButton.setOnClickListener(new View.OnClickListener() {
@@ -146,37 +165,25 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
 
                 if (validateNotificationValues()) {
                     if (mEditMode) {
-                        if (editNotification()) {
-                            Toast.makeText(getActivity(), getString(R.string.notification_was_edited),
-                                    Toast.LENGTH_LONG).show();
-
-                            Fragment notificationsFragment = new NotificationsFragment();
-                            FragmentManager fragmentManager = getActivity().getFragmentManager();
-                            String fragmentTag = ((TagFragment) notificationsFragment).getFragmentTag();
-                            fragmentManager.beginTransaction().replace(R.id.content_frame,
-                                    notificationsFragment).addToBackStack(fragmentTag).commit();
-
-                        } else {
+                        if (!editNotification()) {
                             Toast.makeText(getActivity(), getString(R.string.notification_edit_error),
                                     Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        if (createNotification()) {
-                            Toast.makeText(getActivity(), getString(R.string.notification_was_created),
-                                    Toast.LENGTH_LONG).show();
-
-                            Fragment notificationsFragment = new NotificationsFragment();
-                            FragmentManager fragmentManager = getActivity().getFragmentManager();
-                            String fragmentTag = ((TagFragment) notificationsFragment).getFragmentTag();
-                            fragmentManager.beginTransaction().replace(R.id.content_frame,
-                                    notificationsFragment).addToBackStack(fragmentTag).commit();
-
-                        } else {
+                        else {
+                            mProgressBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else {
+                        if (!createNotification()) {
                             Toast.makeText(getActivity(), getString(R.string.notification_error),
                                     Toast.LENGTH_LONG).show();
                         }
+                        else {
+                            mProgressBar.setVisibility(View.VISIBLE);
+                        }
                     }
-                } else {
+                }
+                else {
                     Toast.makeText(getActivity(), mNotificationValidationMessage,
                             Toast.LENGTH_LONG).show();
                 }
@@ -190,11 +197,21 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        MainActivity mainActivity = ((MainActivity) getActivity());
+        if (!mainActivity.mHeaderClosed) {
+            mainActivity.mHeaderClosed = true;
+            mainActivity.animateHeader();
+        }
+    }
+
     private void setEditMode(View view) {
+        NotificationManager notificationManager = new NotificationManager(getActivity());
         ArrayList<Notification> notifications = new ArrayList<Notification>();
         try {
-            notifications = (ArrayList<Notification>) InternalStorage.readObject(getActivity(),
-                    CreateNotificationFragment.INTERNAL_STORAGE_KEY);
+            notifications = notificationManager.readNotifications();
         } catch (IOException e) {
             Log.e(TAG, "" + e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -207,6 +224,8 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
         TextView headline = (TextView) view.findViewById(R.id.headline);
         headline.setText(getString(R.string.edit_notification));
 
+        mGeofenceId = notification.getGeofenceId();
+
         mNotificationNameEdit.setText(notification.getName());
         mNotificationNameEdit.setTextColor(getResources().getColor(R.color.iob_app_grey));
 
@@ -218,6 +237,7 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
         mRegionCenterMarker = mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 10));
 
         mNotificationRadiusEdit.setText(notification.getRegionRadius() + "");
 
@@ -275,6 +295,9 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
 
         mCreatedNotification = new Notification(name, text, regionCenterLat, regionCenterLon,
                 regionRadius, enters);
+        if (mEditMode) {
+            mCreatedNotification.setGeofenceId(mGeofenceId);
+        }
     }
 
     private boolean validateNotificationValues() {
@@ -303,17 +326,15 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
     }
 
     private boolean createNotification() {
+        NotificationManager notificationManager = new NotificationManager(getActivity());
         try {
-            ArrayList<Notification> notifications = (ArrayList<Notification>)
-                    InternalStorage.readObject(getActivity(), INTERNAL_STORAGE_KEY);
+            ArrayList<Notification> notifications = notificationManager.readNotifications();
             notifications.add(mCreatedNotification);
-
-            InternalStorage.writeObject(getActivity(), INTERNAL_STORAGE_KEY, notifications);
-            return true;
+            notificationManager.writeNotifications(notifications);
         } catch (FileNotFoundException f) {
             ArrayList<Notification> notifications = new ArrayList<Notification>();
             try {
-                InternalStorage.writeObject(getActivity(), INTERNAL_STORAGE_KEY, notifications);
+                notificationManager.writeNotifications(notifications);
                 createNotification();
                 return true;
             } catch (IOException e) {
@@ -327,21 +348,34 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
             Log.e(TAG, e.getMessage());
             return false;
         }
+
+        /*if (mAlarm != null) {
+            mAlarm.setAlarm(getActivity().getApplicationContext());
+        }*/
+
+        final SharedPreferences prefs = getActivity().getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
+        String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
+        Geofence geofence = new Geofence(0, deviceId, mCreatedNotification.getRegionCenterLat(),
+                mCreatedNotification.getRegionCenterLon(), mCreatedNotification.getRegionRadius());
+        IoBAPI ioBAPI = new IoBAPI(new GeofencePostListener(getActivity(), mCreatedNotification, true));
+        ioBAPI.addGeofence(geofence);
+
+        return true;
     }
 
     private boolean editNotification() {
+        NotificationManager notificationManager = new NotificationManager(getActivity());
         try {
-            ArrayList<Notification> notifications = (ArrayList<Notification>)
-                    InternalStorage.readObject(getActivity(), INTERNAL_STORAGE_KEY);
+            ArrayList<Notification> notifications = notificationManager.readNotifications();
+
             int notificationId = getArguments().getInt("notificationId");
             notifications.set(notificationId, mCreatedNotification);
 
-            InternalStorage.writeObject(getActivity(), INTERNAL_STORAGE_KEY, notifications);
-            return true;
+            notificationManager.writeNotifications(notifications);
         } catch (FileNotFoundException f) {
             ArrayList<Notification> notifications = new ArrayList<Notification>();
             try {
-                InternalStorage.writeObject(getActivity(), INTERNAL_STORAGE_KEY, notifications);
+                notificationManager.writeNotifications(notifications);
                 createNotification();
                 return true;
             } catch (IOException e) {
@@ -355,6 +389,16 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
             Log.e(TAG, e.getMessage());
             return false;
         }
+
+        final SharedPreferences prefs = getActivity().getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
+        String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
+        int geofenceId = mCreatedNotification.getGeofenceId();
+        Geofence geofence = new Geofence(geofenceId, deviceId, mCreatedNotification.getRegionCenterLat(),
+                mCreatedNotification.getRegionCenterLon(), mCreatedNotification.getRegionRadius());
+        IoBAPI ioBAPI = new IoBAPI(new GeofencePutListener(getActivity()));
+        ioBAPI.editGeofence(geofence);
+
+        return true;
     }
 
     private void setUpMap(View view, Bundle savedInstanceState) {
@@ -454,5 +498,4 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
     public String getFragmentTag() {
         return TAG;
     }
-
 }

@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
@@ -38,6 +39,9 @@ import de.ifgi.iobapp.fragments.TheftProtectionFragment;
 import de.ifgi.iobapp.style.FontsOverride;
 
 public class MainActivity extends Activity {
+    private static final String PACKAGE = "de.ifgi.iobapp";
+    private static final String DEVICE_ID = ".deviceid";
+    private static final String THEFT_PROTECTION_STATUS = ".theftprotectionstatus";
     private ArrayList<String> mIconNames;
     private ArrayList<String> mNavigationItems;
 
@@ -47,10 +51,13 @@ public class MainActivity extends Activity {
 
     private ImageButton mMenuButton;
     private LinearLayout mMenuCloseButton;
+    private FrameLayout mTheftProtectionButton;
+    private ImageView mTheftProtectionImage;
+    private TextView mTheftProtectionTextView;
 
     private LocationManager mLocationManager;
 
-    private boolean headerClosed = false;
+    public boolean mHeaderClosed = false;
     private float y1, y2;
 
     private final int MIN_DISTANCE = 150;
@@ -66,6 +73,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // override default monospace font
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "Ubuntu-L.ttf");
+
         setContentView(R.layout.activity_main);
 
         // initialise the location manager and open dialog if gps is disabled
@@ -95,8 +106,30 @@ public class MainActivity extends Activity {
             dialog.show();
         }
 
-        // override default monospace font
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "Ubuntu-L.ttf");
+        final SharedPreferences prefs = getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
+        String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
+        if (deviceId.equals("")) {
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage(getResources().getString(R.string.please_configure_device_id));
+
+            dialog.setPositiveButton(getResources().getString(R.string.open_preferences),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            selectItem(3);
+                        }
+                    });
+
+            // cancel button
+            dialog.setNegativeButton(getResources().getString(R.string.cancel),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        }
+                    });
+
+            dialog.show();
+        }
 
         // file name list of the navigation drawer icons
         mIconNames = new ArrayList<String>(Arrays.asList(
@@ -154,15 +187,40 @@ public class MainActivity extends Activity {
                         y2 = event.getY();
                         float deltaY = y2 - y1;
                         if (deltaY < -MIN_DISTANCE) {
-                            if (!headerClosed) {
+                            if (!mHeaderClosed) {
                                 animateHeader();
-                                headerClosed = true;
+                                mHeaderClosed = true;
                             }
                             return true;
                         }
                         break;
                 }
                 return false;
+            }
+        });
+
+        boolean theftProtectionStatus = prefs.getBoolean(PACKAGE + THEFT_PROTECTION_STATUS, false);
+        int imageResource = theftProtectionStatus ?
+                R.drawable.theft_protection_white :
+                R.mipmap.theft_protection_white_unlocked;
+        int text = theftProtectionStatus ? R.string.locked : R.string.unlocked;
+
+        mTheftProtectionImage = (ImageView) findViewById(R.id.theft_protection_image);
+        mTheftProtectionImage.setImageResource(imageResource);
+
+        mTheftProtectionTextView = (TextView) findViewById(R.id.theft_protection_text_view);
+        mTheftProtectionTextView.setText(getString(text));
+
+        mTheftProtectionButton = (FrameLayout) findViewById(R.id.theft_protection_button);
+        mTheftProtectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new TheftProtectionFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                String fragmentTag = ((TagFragment) fragment).getFragmentTag();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).
+                        addToBackStack(fragmentTag).commit();
+                mDrawerList.setItemChecked(3, true);
             }
         });
     }
@@ -231,7 +289,7 @@ public class MainActivity extends Activity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position, view);
+            selectItem(position);
         }
     }
 
@@ -264,13 +322,14 @@ public class MainActivity extends Activity {
     }
 
     // react to clicks on the navigation drawer items
-    private void selectItem(int position, View view) {
+    private void selectItem(int position) {
         Fragment fragment = getFragmentByPosition(position);
 
         // exchange the old fragment with the new one
         FragmentManager fragmentManager = getFragmentManager();
         String fragmentTag = ((TagFragment) fragment).getFragmentTag();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(fragmentTag).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).
+                addToBackStack(fragmentTag).commit();
 
         // set the clicked item as selected
         mDrawerList.setItemChecked(position, true);
@@ -282,7 +341,7 @@ public class MainActivity extends Activity {
     /*
         Method is called to animate the close of the header image
      */
-    private void animateHeader() {
+    public void animateHeader() {
         // get Views of all necessary icons and images
         final ImageView headerImage = (ImageView) findViewById(R.id.header_image);
         final ImageView largeBicycle = (ImageView) findViewById(R.id.large_bicycle);

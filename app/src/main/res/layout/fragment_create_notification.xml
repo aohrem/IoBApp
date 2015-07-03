@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp">
 
@@ -8,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/create_notification"
             android:textSize="30dp"
             android:paddingLeft="10dp"
@@ -149,20 +152,37 @@
 
                 </RadioGroup>
 
-                <Button
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="@string/create"
-                    android:id="@+id/create_button"
-                    android:layout_gravity="right"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/button_red_selector"
-                    android:textColor="@color/iob_app_white"
-                    android:textAllCaps="false"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp" />
+                    android:layout_gravity="right">
+
+                    <ProgressBar
+                        android:id="@+id/create_progress_bar"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/circular_progress_bar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="7dp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="@string/create"
+                        android:id="@+id/create_button"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/button_red_selector"
+                        android:textColor="@color/iob_app_white"
+                        android:textAllCaps="false"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
