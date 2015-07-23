@@ -22,12 +22,7 @@
     <string name="preferences">Preferences</string>
     <string name="credits_and_licences">Credits and Licences</string>
     <string name="menu">Menu</string>
-    <string name="theft_protection_bluetooth_test_button_send_text">Send Message</string>
-    <string name="theft_protection_bluetooth_test_button_receive_text">Receive Message</string>
     <string name="relocate_my_bicycle">Relocate my Bicycle</string>
-    <string name="credits_headline_arduino_android_bluetooth">Android with Arduino - Bluetooth</string>
-    <string name="credits_text_arduino_android_bluetooth_1">Library for Arduino and Android classes to easily connect your mobile device with an Arduino board by Aron Bordin.</string>
-    <string name="credits_text_arduino_android_bluetooth_2">GitHub: https://github.com/aron-bordin/Android-with-Arduino-Bluetooth</string>
     <string name="please_enable_location">Please enable GPS on your device, so we can show your position. Otherwise, this app will not work properly.</string>
     <string name="open_location_settings">Open location settings</string>
     <string name="cancel">Cancel</string>
@@ -39,9 +34,9 @@
     <string name="notification_name">Notification name</string>
     <string name="notification_text_with_description">Notification text\n\nThis text is displayed when the notification triggers.</string>
     <string name="please_select_region">Please select a region for the notification.</string>
-    <string name="notification_shall_get_triggered">Notification should appear when the bicycle ...</string>
-    <string name="enters_region">... enters the region.</string>
-    <string name="leaves_region">... leaves the region.</string>
+    <string name="notification_shall_get_triggered">Notification should appear when the bicycle &#8230;</string>
+    <string name="enters_region">&#8230; enters the region.</string>
+    <string name="leaves_region">&#8230; leaves the region.</string>
     <string name="create">Create</string>
     <string name="notification_was_created">Notification was created successfully.</string>
     <string name="notification_error">Notification could not be created.</string>
@@ -73,14 +68,26 @@
     <string name="connected_to_bluetooth_device">Connected to Bluetooth device.</string>
     <string name="disconnected_from_bluetooth_device">Disconnected from Bluetooth device.</string>
     <string name="bluetooth_device_found">Bluetooth device found.</string>
-    <string name="scanning_for_bluetooth_devices">Scanning for Bluetooth devices ...</string>
+    <string name="scanning_for_bluetooth_devices">Scanning for Bluetooth devices &#8230;</string>
     <string name="device_id">Device ID</string>
     <string name="device_id_description">Please fill in the device ID of your smart bicycle device. This ID is used to distinguish your smart bicycle device from others.</string>
     <string name="please_configure_device_id">Please configure your smart bicycle device id in the preferences.</string>
     <string name="open_preferences">Open preferences</string>
-    <string name="theft_protection_key">27fh94259n7c18jzm35m8uv15vz7cmzc51u08c0u855cvum8245zz</string>
+    <string name="theft_protection_key" translatable="false">27fh94259n7c18jzm35m8uv15vz7cmzc51u08c0u855cvum8245zz</string>
     <string name="start_scan">Scan for devices</string>
     <string name="location_not_found">The location of your bicycle could not be determined. Maybe your smart bicycle device id is configured incorrectly.</string>
-    <string name="error_json_array_empty">JSON Array empty</string>
-    <string name="error_invalid_json_array">(Invalid JSON Array)</string>
+    <string name="error_json_array_empty" translatable="false">JSON Array empty</string>
+    <string name="error_invalid_json_array" translatable="false">(Invalid JSON Array)</string>
+    <string name="date_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="credits_headline_btle">Bluetooth Low Energy Android Test</string>
+    <string name="credits_text_btle_1">Simple test for sending and receiving data to a Bluetooth Low Energy UART service from an Android 4.3 or 4.4 device.</string>
+    <string name="credits_text_btle_2">GitHub: https://github.com/tdicola/BTLETest</string>
+    <string name="internet_of_bicycles">Internet of Bicycles</string>
+    <string name="docents">Docents:\n\t\tProf. Dr. Albert Remke\n\t\tJan Wirwahn\n\t\tSimon Jirka</string>
+    <string name="platform_group">Platform Team:\n\t\tLars Syfuß\n\t\tMarius Runde\n\t\tDaniel Sawatzky</string>
+    <string name="device_group">Device Team:\n\t\tChristoph Kisfeld\n\t\tTobias Brüggentisch\n\t\tRené Unrau\n\t\tNicholas Schiestel\n\t\tLukas Lohoff</string>
+    <string name="app_group">App Team:\n\t\tAndreas Ohrem\n\t\tAleksandr Shirokov\n\t\tAndré Wieghardt\n\t\tJulius Wittkopp</string>
+    <string name="credits">Credits</string>
+    <string name="licences">Licences</string>
+    <string name="invalid">invalid</string>
 </resources>

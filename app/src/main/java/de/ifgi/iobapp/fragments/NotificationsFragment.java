@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,23 +18,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONTokener;
-
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import de.ifgi.iobapp.MainActivity;
 import de.ifgi.iobapp.R;
+import de.ifgi.iobapp.alarm.AlarmManagerBroadcastReceiver;
 import de.ifgi.iobapp.api.DeleteListener;
-import de.ifgi.iobapp.api.GeofenceJSONParser;
-import de.ifgi.iobapp.api.GetJSONClient;
 import de.ifgi.iobapp.api.IoBAPI;
-import de.ifgi.iobapp.model.DoubleComparator;
-import de.ifgi.iobapp.model.Geofence;
 import de.ifgi.iobapp.model.Notification;
 import de.ifgi.iobapp.model.NotificationComparator;
 import de.ifgi.iobapp.persistance.NotificationManager;
@@ -194,6 +185,10 @@ public class NotificationsFragment extends Fragment implements TagFragment {
             }
             if (deleteNotification != null) {
                 notifications.remove(deleteNotification);
+            }
+            if (notifications.size() == 0) {
+                AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
+                alarm.cancelAlarm(getActivity().getApplicationContext());
             }
             notificationManager.writeNotifications(notifications);
         } catch (IOException e) {

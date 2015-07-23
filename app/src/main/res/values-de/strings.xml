@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    <string-array name="navigation_items">
+        <item>Finde mein Fahrrad</item>
+        <item>Benachrichtigungen</item>
+        <item>Diebstahlschutz</item>
+        <item>Einstellungen</item>
+        <item>Credits und Lizenzen</item>
+    </string-array>
+
+    <string name="app_name">Internet of Bicycles App</string>
+    <string name="automatic_mode_activated">Automatischer Modus aktiviert</string>
+    <string name="bluetooth_device_found">Bluetooth-Gerät gefunden.</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="connected_to_bluetooth_device">Mit Bluetooth-Geräte verbunden.</string>
+    <string name="create">Erstellen</string>
+    <string name="create_notification">Benachrichtigung erstellen</string>
+    <string name="credits_and_licences">Credits und Lizenzen</string>
+    <string name="current_status">Aktueller Status</string>
+    <string name="date_format">dd. MM. yyyy HH:mm:ss</string>
+    <string name="delete_really">Wollen Sie diese Benachrichtigung wirklich löschen?</string>
+    <string name="device_doesnt_support_bluetooth">Ihr Gerät unterstützt kein Bluetooth.</string>
+    <string name="device_id">Geräte ID</string>
+    <string name="device_id_description">Bitte füllen Sie die Geräte ID Ihres Smart Bicycle Geräts aus. Diese ID wird verwendet, um Ihr Smart Bicycle Gerät von anderen zu unterscheiden.</string>
+    <string name="disconnected_from_bluetooth_device">Verbindung zum Bluetooth-Gerät unterbrochen.</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="edit_notification">Benachrichtigung bearbeiten</string>
+    <string name="enters_region">&#8230; in die Region eintritt.</string>
+    <string name="notification_shall_get_triggered">Benachrichtigung soll erscheinen, wenn das Fahrrad &#8230;</string>
+    <string name="error_http_request">HTTP Anfrage fehlgeschlagen</string>
+    <string name="error_loading_bike_location">Es tut uns leid, wir hatten Probleme dabei, die Position Ihres Fahrrades herauszufinden.</string>
+    <string name="find_my_bicycle">Finde mein Fahrrad</string>
+    <string name="google_play_services_missing">Google Play Services nicht gefunden.</string>
+    <string name="leaves_region">&#8230; die Region verlässt.</string>
+    <string name="location_not_found">Die Position Ihres Fahrrades konnte nicht bestimmt werden. Eventuell ist die Smart Bicycle ID nicht korrekt konfiguriert.</string>
+    <string name="locked">abgeschlossen</string>
+    <string name="manual_mode_activated">Manueller Modus aktiviert</string>
+    <string name="menu">Menü</string>
+    <string name="meters">Meter</string>
+    <string name="notification_delete_error">Benachrichtigung konnte nicht gelöscht werden.</string>
+    <string name="notification_edit_error">Benachrichtigung konnte nicht bearbeitet werden.</string>
+    <string name="notification_error">Benachrichtigung konnte nicht erstellt werden.</string>
+    <string name="notification_name">Benachrichtigungsname</string>
+    <string name="notification_name_not_valid">Bitte geben Sie einen Benachrichtigungsnamen ein.</string>
+    <string name="notification_no_marker">Bitte klicken Sie auf die Karte, um einen Marker zu erstellen.</string>
+    <string name="notification_radius_null">Der Radius darf nicht 0 Meter sein.</string>
+    <string name="notification_text_not_valid">Bitte tragen Sie einen Benachrichtigungstext ein.</string>
+    <string name="notification_text_with_description">Benachrichtigungstext\n\nDieser Text wird angezeigt, wenn die Benachrichtigung ausgelöst wird.</string>
+    <string name="notification_was_created">Benachrichtigung wurde erfolgreich erstellt.</string>
+    <string name="notification_was_deleted">Benachrichtigung wurde erfolgreich gelöscht.</string>
+    <string name="notification_was_edited">Benachrichtigung wurde erfolgreich bearbeitet.</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="open_bluetooth_setting">Bluetooth-Einstellungen öffnen</string>
+    <string name="open_location_settings">Standorteinstellungen öffnen</string>
+    <string name="open_preferences">Einstellungen öffnen</string>
+    <string name="please_configure_device_id">Bitte konfigurieren Sie die Smart Bicycle ID in den Einstellungen.</string>
+    <string name="please_enable_bluetooth">Bitte aktivieren Sie Bluetooth auf Ihrem Gerät.</string>
+    <string name="please_enable_location">Bitte aktivieren Sie GPS auf Ihrem Gerät, sodass wir Ihre Position anzeigen können. Anderenfalls wird diese App nicht komplett funktionieren.</string>
+    <string name="please_select_region">Bitte wählen Sie eine Region für die Benachrichtigung aus.</string>
+    <string name="please_update_google_play_service">Bitte updaten Sie die Google Play Services</string>
+    <string name="preferences">Einstellungen</string>
+    <string name="radius">Radius:</string>
+    <string name="relocate_my_bicycle">Fahrrad erneut lokalisieren</string>
+    <string name="scanning_for_bluetooth_devices">Suche nach Bluetooth-Geräten &#8230;</string>
+    <string name="start_scan">Nach Geräten suchen</string>
+    <string name="theft_protection">Diebstahlschutz</string>
+    <string name="unlocked">nicht abgeschlossen</string>
+    <string name="yes">Ja</string>
+    <string name="your_bicycle">Ihr Fahrrad</string>
+    <string name="your_location">Ihre Position</string>-->
+</resources>

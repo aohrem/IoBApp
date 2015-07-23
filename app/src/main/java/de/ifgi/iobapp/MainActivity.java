@@ -79,10 +79,12 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+
         // initialise the location manager and open dialog if gps is disabled
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         if ( ! mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage(getResources().getString(R.string.please_enable_location));
 
             // open location settings button
@@ -108,8 +110,8 @@ public class MainActivity extends Activity {
 
         final SharedPreferences prefs = getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
         String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
-        if (deviceId.equals("")) {
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        if (deviceId.trim().equals("")) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage(getResources().getString(R.string.please_configure_device_id));
 
             dialog.setPositiveButton(getResources().getString(R.string.open_preferences),
@@ -220,7 +222,7 @@ public class MainActivity extends Activity {
                 String fragmentTag = ((TagFragment) fragment).getFragmentTag();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).
                         addToBackStack(fragmentTag).commit();
-                mDrawerList.setItemChecked(3, true);
+                mDrawerList.setItemChecked(2, true);
             }
         });
     }

@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.ifgi.iobapp.MainActivity;
 import de.ifgi.iobapp.R;
@@ -48,6 +49,7 @@ import de.ifgi.iobapp.api.GeofencePostListener;
 import de.ifgi.iobapp.map.ScrollMapView;
 import de.ifgi.iobapp.model.Geofence;
 import de.ifgi.iobapp.model.Notification;
+import de.ifgi.iobapp.model.NotificationComparator;
 import de.ifgi.iobapp.persistance.NotificationManager;
 
 public class CreateNotificationFragment extends Fragment implements TagFragment {
@@ -218,6 +220,7 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
             Log.e(TAG, "" + e.getMessage());
         }
 
+        Collections.sort(notifications, new NotificationComparator());
         int notificationId = getArguments().getInt("notificationId");
         Notification notification = notifications.get(notificationId);
 
@@ -331,6 +334,11 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
             ArrayList<Notification> notifications = notificationManager.readNotifications();
             notifications.add(mCreatedNotification);
             notificationManager.writeNotifications(notifications);
+
+            if (mAlarm != null && notifications.size() >= 1) {
+                Log.d(TAG, "AlarmManager started.");
+                mAlarm.setAlarm(getActivity().getApplicationContext());
+            }
         } catch (FileNotFoundException f) {
             ArrayList<Notification> notifications = new ArrayList<Notification>();
             try {
@@ -349,10 +357,6 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
             return false;
         }
 
-        /*if (mAlarm != null) {
-            mAlarm.setAlarm(getActivity().getApplicationContext());
-        }*/
-
         final SharedPreferences prefs = getActivity().getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
         String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
         Geofence geofence = new Geofence(0, deviceId, mCreatedNotification.getRegionCenterLat(),
@@ -368,6 +372,7 @@ public class CreateNotificationFragment extends Fragment implements TagFragment 
         try {
             ArrayList<Notification> notifications = notificationManager.readNotifications();
 
+            Collections.sort(notifications, new NotificationComparator());
             int notificationId = getArguments().getInt("notificationId");
             notifications.set(notificationId, mCreatedNotification);
 

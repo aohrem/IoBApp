@@ -124,4 +124,8 @@ public class IoBAPI {
         nameValuePairs.add(new BasicNameValuePair(GEOFENCE_RADIUS, geofence.getRadius() + ""));
         putJSON(GEOFENCES, geofence.getId() + "", nameValuePairs);
     }
+
+    public void getMessageInGeofence(int messageId, int geofenceId) {
+        getJSON(GEOFENCES, messageId + "", geofenceId + "");
+    }
 }

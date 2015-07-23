@@ -1,22 +1,35 @@
 package de.ifgi.iobapp.alarm;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import de.ifgi.iobapp.MainActivity;
+import de.ifgi.iobapp.R;
+import de.ifgi.iobapp.api.GetJSONClient;
+import de.ifgi.iobapp.api.IoBAPI;
+import de.ifgi.iobapp.api.MessageGetListener;
+import de.ifgi.iobapp.api.PostJSONClient;
+import de.ifgi.iobapp.model.Notification;
+import de.ifgi.iobapp.model.NotificationComparator;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
-
-
     private static final String TAG = "AlarmManagerBroadcast";
+    private static final String PACKAGE = "de.ifgi.iobapp";
+    private static final String DEVICE_ID = ".deviceid";
+    private static final int INTERVAL_SECONDS = 60;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -25,11 +38,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         wl.acquire();
 
-        StringBuilder msgStr = new StringBuilder();
-        Format formatter = new SimpleDateFormat("hh:mm:ss a");
-        msgStr.append(formatter.format(new Date()));
-        Log.d(TAG, msgStr.toString());
-        Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
+        final SharedPreferences prefs = context.getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
+        String deviceId = prefs.getString(PACKAGE + DEVICE_ID, "");
+        IoBAPI ioBAPI = new IoBAPI(new MessageGetListener(context));
+        ioBAPI.getAllMessagesFromDevice(deviceId);
 
         wl.release();
     }
@@ -38,7 +50,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000, pi);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * INTERVAL_SECONDS, pi);
     }
 
     public void cancelAlarm(Context context) {

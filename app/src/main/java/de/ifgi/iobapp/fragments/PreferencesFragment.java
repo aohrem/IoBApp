@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import de.ifgi.iobapp.R;
 
@@ -33,6 +34,7 @@ public class PreferencesFragment extends Fragment implements TagFragment {
         final SharedPreferences prefs = getActivity().getSharedPreferences(PACKAGE, Context.MODE_PRIVATE);
 
         EditText deviceIdEditText = (EditText) view.findViewById(R.id.device_id_edit_text);
+        final TextView invalidTextView = (TextView) view.findViewById(R.id.text_view_error_device_id);
         deviceIdEditText.setText(prefs.getString(PACKAGE + DEVICE_ID, ""));
         deviceIdEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -47,7 +49,14 @@ public class PreferencesFragment extends Fragment implements TagFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                prefs.edit().putString(PACKAGE + DEVICE_ID, editable.toString()).apply();
+                if (!editable.toString().trim().equals("")) {
+                    prefs.edit().putString(PACKAGE + DEVICE_ID, editable.toString()).apply();
+                    invalidTextView.setVisibility(View.GONE);
+                }
+                else {
+                    prefs.edit().remove(PACKAGE + DEVICE_ID);
+                    invalidTextView.setVisibility(View.VISIBLE);
+                }
             }
         });
 

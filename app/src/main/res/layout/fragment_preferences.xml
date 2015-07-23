@@ -35,17 +35,34 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="20dp" />
 
-            <EditText
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:id="@+id/device_id_edit_text"
-                android:layout_gravity="right"
-                android:inputType="text"
-                android:background="@drawable/input"
-                android:textColor="@color/iob_app_grey"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="15dp"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/invalid"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:id="@+id/text_view_error_device_id"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/iob_app_red"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/device_id_edit_text"
+                    android:inputType="text"
+                    android:background="@drawable/input"
+                    android:textColor="@color/iob_app_grey"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="15dp"/>
+            </LinearLayout>
 
         </FrameLayout>
 
